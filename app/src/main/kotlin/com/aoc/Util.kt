@@ -378,3 +378,8 @@ fun <T : Any> T.repeat(times: Int? = null): Sequence<T> = sequence {
     var count = 0
     while (times == null || count++ < times) yield(this@repeat)
 }
+
+
+fun <T: Any> List<T>.dropIndexN(n : Int) : List<T> {
+    return this.filterIndexed{ index, _ -> index != n}
+}
