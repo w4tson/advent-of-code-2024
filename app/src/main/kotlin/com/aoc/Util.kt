@@ -251,6 +251,21 @@ class Coord(val x: Long, val y: Long) {
         }
     }
 
+    fun fourCoordsIn8Directions() : List<List<Coord>>{
+        return Compass.values().map { direction ->
+            listOf(this) + (1..3).map {
+                (0 until it).fold(this) { acc, prev ->
+                    acc.moveBy(direction)
+                }
+            }
+        }
+    }
+
+    fun threeCoordsIn2DiaganolDirections(distance : Int = 1) : List<List<Coord>> {
+        return listOf(listOf(this.moveBy(SOUTH_WEST),this,this.moveBy(NORTH_EAST)),
+        listOf(this.moveBy(NORTH_WEST),this,this.moveBy(SOUTH_EAST)))
+    }
+
     fun adjacentCoords() : List<Coord> {
         return listOf(north(), east(), south(), west())
     }
