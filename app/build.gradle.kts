@@ -40,3 +40,9 @@ tasks.named<Test>("test") {
     useJUnitPlatform()
     testLogging.showStandardStreams = true
 }
+
+tasks.withType<Test> {
+    minHeapSize = "512m"
+    maxHeapSize = "4096m"
+//    jvmArgs = listOf("-XX:MaxPermSize=512m")
+}
