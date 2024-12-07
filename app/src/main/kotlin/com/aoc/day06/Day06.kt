@@ -3,41 +3,25 @@ package com.aoc.day06
 import Compass
 import Compass.*
 import Coord
-import kotlin.math.max
-import kotlin.math.min
 
 data class Line(val from: Coord, val to : Coord) {
-    fun xRange() : LongProgression {
-        return if (from.x < to.x) {
-            from.x+1 .. to.x
-        } else {
-            from.x-1 downTo  to.x
-        }
-    }
-
-    fun yRange(): LongProgression {
-        return if (from.y > to.y) {
-            from.y-1 downTo  to.y
-        } else {
-            from.y+1 ..  to.y
-        }
-    }
+    fun allBetween() : Set<Coord> = from.allCoordsBetween(to)
 }
 
 data class LabMap(val obstructions: List<Coord>, val width: Int, val height: Int, val initialGuard: Guard) {
-
-    val visited = mutableSetOf<Line>()
-    val newObstacles = mutableSetOf<Coord>()
+    val visited = mutableMapOf<Line, Int>()
     var guard = initialGuard
 
     fun part2(): Int {
-        part1()
-        visited.forEach {  }
-        return newObstacles.size
+        run()
+        return visited.keys.flatMap { it.allBetween() }.toSet().count {
+            LabMap(obstructions + it, width, height, initialGuard).run().isInALoop()
+        }
     }
 
-    fun part1(): Int {
+    fun isInALoop() : Boolean = (visited.maxOfOrNull { it.value } ?: 0) > 5
 
+    fun run(): LabMap {
         while (true) {
             val nextPoint = when(guard.direction) {
                 NORTH -> obstructions.filter{ it.y < guard.position.y && it.x == guard.position.x }.maxByOrNull { it.y }?.south()
@@ -48,68 +32,20 @@ data class LabMap(val obstructions: List<Coord>, val width: Int, val height: Int
             }
 
             val newLine = if (nextPoint == null) { guard.lineToTheEdge(width,height) } else { Line(guard.position, nextPoint) }
-            newObstacles.addAll(willIntroduceALoop(newLine))
-            visited.add(newLine)
+            visited.compute(newLine) { _, v -> (v ?: 0) + 1 }
 
-
-            if (nextPoint == null) {
+            if (nextPoint == null || isInALoop()) {
                 break
             } else {
                 guard = Guard(nextPoint, guard.direction.rotate90Clockwise())
             }
         }
-
-        return visited.flatMap { it.from.allCoordsBetween(it.to) }.toSet().count()
+        return this
     }
 
-    fun visited() = visited.filterNot { it.from == initialGuard.position }
-
-    fun willIntroduceALoop(line: Line) : Set<Coord> {
-        return when (guard.direction) {
-            NORTH -> line.yRange()
-                .flatMap { y ->
-                    visited().mapNotNull {
-                        if (it.from.y == y && it.from.x > line.from.x) {
-                            Coord(line.from.x, y-1)
-                        } else null
-                    }
-                }
-            SOUTH -> line.yRange()
-                .flatMap { y ->
-                    visited().mapNotNull {
-                        if (it.from.y == y && it.from.x < line.from.x) {
-                            Coord(line.from.x, y+1)
-                        } else null
-                    }
-                }
-            EAST -> line.xRange()
-                .flatMap { x ->
-                    visited().mapNotNull {
-                        if (it.from.x == x && it.from.y > line.from.y) {
-                            Coord(x+1, line.from.y)
-                        } else null
-                    }
-                }
-            WEST -> line.xRange()
-                .flatMap { x ->
-                    visited().mapNotNull { v ->
-                        if (v.from.x == x && v.from.y < line.from.y) {
-                            Coord(x-1, line.from.y)
-                        } else null
-                    }
-                }
-            else -> throw AssertionError("nope")
-        }.toSet()
-    }
-
-    fun doesCoordIntroduceALoop(line: Coord) : Boolean {
-        return when(guard.direction) {
-            NORTH -> visited.any { (line.y +1) == it.from.y }
-            SOUTH -> visited.any { (line.y -1) == it.from.y }
-            EAST -> visited.any { (line.x -1) == it.from.x }
-            WEST -> visited.any { (line.x +1) == it.from.x }
-            else -> throw AssertionError("nope")
-        }
+    fun part1(): Int {
+        run()
+        return visited.keys.flatMap { it.from.allCoordsBetween(it.to) }.toSet().count()
     }
 }
 

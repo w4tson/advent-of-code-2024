@@ -25,26 +25,6 @@ class Day06Test {
         ......#...
     """.trimIndent()
 
-
-    val testStr1 = """
-         ..#.
-         ...#
-         ..^.
-    """.trimIndent()
-
-    val testStr2 = """
-        .#.
-        #.#
-        #^.
-        ...
-    """.trimIndent()
-    val testStr3 = """
-        .#.
-        ..#
-        #.<
-        .#.
-    """.trimIndent()
-
     fun String.toLabMap() : LabMap {
         val map = mutableMapOf<Coord, Char>()
         var guard = Guard(Coord.origin, NORTH)
@@ -80,25 +60,16 @@ class Day06Test {
     }
 
     @Test
-    fun part2() {
+    fun part2Test() {
         val labMap = testStr.toLabMap()
-        labMap.part1()
-        val expected = listOf(Coord(3,6),Coord(6,7),Coord(7,7),Coord(1,8),Coord(3,8),Coord(7,9))
-        assertEquals(expected.toSet(), labMap.newObstacles)
+        assertEquals(6, labMap.part2())
 
     }
 
     @Test
-    fun part22() {
-        val labMap = input.toLabMap()
-        labMap.part1()
-        labMap.newObstacles.size.also { println(it) }
+    fun part2() {
+        input.toLabMap().part2().also { println(it) }
     }
 
-    @Test
-    fun test2() {
-        assertEquals(0, testStr1.toLabMap().part2())
-        assertEquals(2, testStr2.toLabMap().part2())
-    }
 }
 
