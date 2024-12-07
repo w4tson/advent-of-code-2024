@@ -3,6 +3,8 @@ import java.nio.charset.StandardCharsets
 import java.util.*
 import kotlin.IllegalStateException
 import kotlin.math.absoluteValue
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.streams.toList
 
 class Util {
@@ -266,6 +268,9 @@ class Coord(val x: Long, val y: Long) {
         listOf(this.moveBy(NORTH_WEST),this,this.moveBy(SOUTH_EAST)))
     }
 
+    fun rotateBy(degrees : Int = 90) {
+
+    }
     fun adjacentCoords() : List<Coord> {
         return listOf(north(), east(), south(), west())
     }
@@ -274,6 +279,16 @@ class Coord(val x: Long, val y: Long) {
         val xDist = (x - other.x).absoluteValue
         val yDist = (y - other.y).absoluteValue
         return xDist + yDist
+    }
+
+    fun allCoordsBetween(other : Coord) : Set<Coord> {
+        if (x != other.x && y != other.y) return setOf()
+
+        return if (x == other.x) {
+            (min(y, other.y)..max(y, other.y)).map { Coord(x,it) }.toSet()
+        } else {
+            (min(x, other.x)..max(x, other.x)).map { Coord(it,y) }.toSet()
+        }
     }
 
     fun allCoordsWithinARadius(r : Long, y: Long) : Pair<Coord, Coord> {
@@ -318,8 +333,18 @@ enum class Compass {
     NORTH_EAST,
     NORTH_WEST,
     SOUTH_EAST,
-    SOUTH_WEST
+    SOUTH_WEST;
 
+    fun rotate90Clockwise() : Compass = when(this) {
+            NORTH -> EAST
+            SOUTH -> WEST
+            EAST -> SOUTH
+            WEST -> NORTH
+            NORTH_EAST -> SOUTH_EAST
+            NORTH_WEST -> NORTH_EAST
+            SOUTH_EAST -> SOUTH_WEST
+            SOUTH_WEST -> NORTH_WEST
+        }
 
 }
 
