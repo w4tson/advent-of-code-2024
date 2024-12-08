@@ -272,9 +272,6 @@ class Coord(val x: Long, val y: Long) {
         listOf(this.moveBy(NORTH_WEST),this,this.moveBy(SOUTH_EAST)))
     }
 
-    fun rotateBy(degrees : Int = 90) {
-
-    }
     fun adjacentCoords() : List<Coord> {
         return listOf(north(), east(), south(), west())
     }
@@ -305,6 +302,8 @@ class Coord(val x: Long, val y: Long) {
 
         return Pair(start, end)
     }
+
+    fun inverse() : Coord = Coord(-x,-y)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
