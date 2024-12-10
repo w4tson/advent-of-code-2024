@@ -60,6 +60,26 @@ class Day10Test {
         10456732
     """.trimIndent()
 
+    val testStr6 = """
+        .....0.
+        ..4321.
+        ..5..2.
+        ..6543.
+        ..7..4.
+        ..8765.
+        ..9....
+    """.trimIndent()
+
+    val testStr7 = """
+        89010123
+        78121874
+        87430965
+        96549874
+        45678903
+        32019012
+        01329801
+        10456732
+    """.trimIndent()
 
     @Test
     fun test1() {
@@ -73,8 +93,20 @@ class Day10Test {
     }
 
     @Test
+    fun part2Test() {
+        assertEquals(3, testStr6.toTopoMap().walkFrom(Coord(5, 0)).count())
+        assertEquals(81, testStr7.toTopoMap().part1())
+
+    }
+
+    @Test
     fun part1() {
         input.toTopoMap().part1().also { println(it) }
+    }
+
+    @Test
+    fun part2() {
+        input.toTopoMap().part2().also { println(it) }
     }
 }
 
