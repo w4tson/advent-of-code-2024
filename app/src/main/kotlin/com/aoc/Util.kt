@@ -303,6 +303,8 @@ class Coord(val x: Long, val y: Long) {
         return Pair(start, end)
     }
 
+    fun withBounds(width: Int, height: Int) : Boolean = (x >= 0 && x < width && y >= 0 && y < height)
+
     fun inverse() : Coord = Coord(-x,-y)
 
     override fun equals(other: Any?): Boolean {
