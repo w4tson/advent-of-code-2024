@@ -1,6 +1,5 @@
 package com.aoc
 
-import com.aoc.day09.Node
 
 class LinkedList<T>() : Iterable<T> {
     private var head : Node<T>? = null

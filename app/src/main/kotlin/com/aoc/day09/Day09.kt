@@ -1,6 +1,7 @@
 package com.aoc.day09
 
 import com.aoc.LinkedList
+import takeWhileInclusive
 
 sealed class Block
 
@@ -51,6 +52,16 @@ data class Disk(val diskMapStr : String) {
         return linkedList.filterIsInstance<File>()
             .mapIndexed { index, file -> index * file.name.toLong() }
             .sum()
+    }
+
+    fun findFileFromTheBackWhere() {
+        linkedList.reversed()
+    }
+
+    fun part2() {
+        println(linkedList)
+        val result = linkedList.dropWhile { it is File }.takeWhile { it is EmptyBlock }
+        println(result)
     }
 }
 

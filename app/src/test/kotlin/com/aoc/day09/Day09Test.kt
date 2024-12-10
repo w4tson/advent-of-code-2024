@@ -2,6 +2,7 @@ package com.aoc.day09
 
 import Util.Companion.readInput
 import charList
+import com.aoc.LinkedList
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -30,6 +31,12 @@ class Day09Test {
     }
 
     @Test
+    fun part2() {
+        Disk(testStr).part2().also { println(it) }
+        TODO("Not yet implemented")
+    }
+
+    @Test
     fun testLL() {
         val ll = LinkedList<Int>()
         ll.append(1).append(2).append(3).append(4).append(5)
@@ -37,8 +44,6 @@ class Day09Test {
             it != 4
         }
         println(x)
-
-
     }
 }
 
