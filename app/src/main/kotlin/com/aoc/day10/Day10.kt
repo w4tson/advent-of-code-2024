@@ -5,8 +5,8 @@ import Coord
 data class TopoMap(val map: Map<Coord, Int>, val width: Int, val height: Int) {
     fun trailHeads() : List<Coord> = map.entries.filter { it.value == 0 }.map { it.key }
 
-    fun part1() = trailHeads().sumOf { walkFrom(it).map { it.last() }.toSet().count() }
-    fun part2() = trailHeads().sumOf { walkFrom(it).count() }
+    fun part1() = trailHeads().sumOf { trailHead -> walkFrom(trailHead).map { it.last() }.toSet().count() }
+    fun part2() = trailHeads().sumOf { trailHead -> walkFrom(trailHead).count() }
 
     fun score(trailHead : Coord) : Int = walkFrom(trailHead).count()
 
