@@ -42,7 +42,7 @@ tasks.named<Test>("test") {
 }
 
 tasks.withType<Test> {
-    minHeapSize = "512m"
-    maxHeapSize = "4096m"
+//    minHeapSize = "512m"
+//    maxHeapSize = "4096m"
 //    jvmArgs = listOf("-XX:MaxPermSize=512m")
 }

@@ -7,7 +7,7 @@ fun blinkSequence(input : String): Sequence<Map<String, BigInteger>> {
     var blink = 0
     return generateSequence(stonesMap) {
         blink++
-        
+
         it.entries.flatMap { (stone, num) ->
             when{
                 stone == "0" -> listOf(Pair("1", num))

@@ -351,6 +351,14 @@ enum class Compass {
             SOUTH_WEST -> NORTH_WEST
         }
 
+    companion object {
+        fun fourPointsEnumerated(): List<Compass> {
+            return listOf(NORTH,EAST,SOUTH,WEST)
+        }
+    }
+
+
+
 }
 
 fun fourCompassPoints() : List<Compass> {
