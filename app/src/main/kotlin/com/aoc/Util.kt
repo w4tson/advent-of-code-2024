@@ -191,10 +191,10 @@ class Coord(val x: Long, val y: Long) {
     }
 
     fun moveByChar(ch : Char) : Coord = when (ch) {
-        'U' -> Coord(x,y-1)
-        'D' -> Coord(x,y+1)
-        'L' -> Coord(x-1,y)
-        'R' -> Coord(x+1,y)
+        'U','^' -> Coord(x,y-1)
+        'D','v' -> Coord(x,y+1)
+        'L','<' -> Coord(x-1,y)
+        'R','>' -> Coord(x+1,y)
         else -> throw IllegalStateException("Can't move in direction $ch")
     }
 
